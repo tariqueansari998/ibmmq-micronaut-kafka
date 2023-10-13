@@ -1,0 +1,72 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.3"
+    id("io.micronaut.aot") version "4.0.3"
+    //id("io.freefair.lombok") version "8.3"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("io.micronaut:micronaut-inject:4.1.8")
+    implementation("io.micronaut:micronaut-context:4.1.8")
+    implementation("io.micronaut.discovery:micronaut-discovery-client:4.0.1")
+    implementation("org.springframework:spring-jms:6.0.12")
+    implementation("org.springframework:spring-context:6.0.12")
+    implementation("com.ibm.mq:com.ibm.mq.jakarta.client:9.3.3.1")
+    implementation("jakarta.jms:jakarta.jms-api:3.1.0")
+    implementation("io.micronaut.kafka:micronaut-kafka")
+    implementation("org.slf4j:slf4j-api:2.0.0")
+    implementation("org.slf4j:slf4j-simple:2.0.0")
+    implementation("org.jdom:jdom2:2.0.6.1")
+    implementation("io.micronaut.jms:micronaut-jms-core:3.0.1")
+    testImplementation("io.micronaut:micronaut-http-client")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    // for Configurationproperties to read from yml
+    runtimeOnly("org.yaml:snakeyaml")
+
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    annotationProcessor "org.projectlombok:lombok:1.16.20"
+}
+
+
+application {
+    mainClass.set("com.example.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+    aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+    }
+}
+
+
+

@@ -1,0 +1,21 @@
+mq:
+  source1:
+    BQUK:
+      queueManager: QM1
+      host: localhost
+      port: 1414
+      channel: DEV.APP.SVRCONN
+      queueName: DEV.QUEUE.1
+      username: app
+      password: passw0rd
+      messageConsumptionEnabled: true
+      autoStartup: false
+
+kafka:
+  bootstrap:
+    servers: localhost:9092
+
+
+micronaut:
+  server:
+    port: 8082
